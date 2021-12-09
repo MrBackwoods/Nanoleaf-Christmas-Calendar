@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using DeviceDiscovery.Models;
 using Nanoleaf.Client;
@@ -32,7 +32,7 @@ namespace NanoleafChristmasCalendar
             Layout layout = await client.GetLayoutAsync();
             var paintedPanels = new Dictionary<int, Color>();
 
-            // Calculate how many panels should be painted red today (fully read on christmas eve)
+            // Calculate how many panels should be painted red today (fully red on christmas eve)
             double panelInDays = layout.NumPanels / 24.0f;
             int dayToday = DateTime.Now.Date.Day;
             int panelsToPaintRed = (int)(dayToday * panelInDays);
@@ -55,7 +55,6 @@ namespace NanoleafChristmasCalendar
 
             // Sync to device
             await nanoStream.SetColorAsync(paintedPanels, 100);
-
             Console.WriteLine("Nanoleaf device updated!");
         }
 
@@ -70,6 +69,7 @@ namespace NanoleafChristmasCalendar
             var discoveredNanoleafs = nanoleafDiscovery.DiscoverNanoleafs(request);
             var nanoleaf = discoveredNanoleafs.FirstOrDefault();
             var newToken = await nanoleaf.CreateTokenAsync();
+            
             Console.WriteLine("Token: " + newToken.Token);
             token = newToken.Token.ToString();
             Console.WriteLine("Hostname: " + nanoleaf.HostName);
