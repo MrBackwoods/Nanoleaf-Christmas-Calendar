@@ -25,6 +25,7 @@ namespace NanoleafXmas
                 var formatedPanels = FormUpdatedPanels(layout, redPanelCount);
 
                 // Update the panels
+                await client.StartExternalAsync();
                 NanoleafStreamingClient nanoStream = new NanoleafStreamingClient(client.HostName);
                 await nanoStream.SetColorAsync(formatedPanels, 100);
                 Console.WriteLine($"Nanoleaf device updated. {redPanelCount} panels set to red and {layout.NumPanels - redPanelCount} set to white.");
@@ -47,6 +48,11 @@ namespace NanoleafXmas
                 double panelInDays = (double)totalAmountOfPanels / (double)dayWhenAllPanelsRed;
                 int dayToday = today.Day;
                 panelsToPaintRed = (int)(dayToday * panelInDays);
+            }
+
+            if (panelsToPaintRed > totalAmountOfPanels)
+            {
+                return totalAmountOfPanels;
             }
 
             return panelsToPaintRed;
